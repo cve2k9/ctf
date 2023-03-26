@@ -6,6 +6,8 @@
 >
 > **File**: [javajitters.jar](https://files.ivyfanchiang.ca/\_umassctf\_java/javajitters.jar)****
 
+The program provided is run in the command line and asks the user to supply a password as an argument, if the password is correct, the program prints out the flag.
+
 ## Unpacking the JAR
 
 This is pretty simple, JAR files are just fancy ZIP files with a set directory structure so once you unzip it you get this:
