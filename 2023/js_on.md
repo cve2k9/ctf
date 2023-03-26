@@ -18,7 +18,7 @@ What we first run into by looking at this challenge is a website that allows you
 
 There is also a 'bot' website that seems to run the user's generated code as admin.
 
-<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption><p>The Bot website</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2).png" alt=""><figcaption><p>The Bot website</p></figcaption></figure>
 
 ```javascript
 // Removed all the imports and basic express stuff to save space
@@ -130,7 +130,7 @@ Then, when the bot opens the page it overwrites the Function then calls it with 
 
 Refresh, then you got the cookie:
 
-<figure><img src="../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
 
 You can then put this cookie and access the admin snippet:
 
