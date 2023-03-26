@@ -2,9 +2,9 @@
 
 ## Description
 
-_sips coffee_ o vault of secrets, teller of wisdom and UMastery, tell me the secret phrase and I shall share my wisdom
-
-**File**: [javajitters.jar](https://files.ivyfanchiang.ca/\_umassctf\_java/javajitters.jar)
+> _sips coffee_ o vault of secrets, teller of wisdom and UMastery, tell me the secret phrase and I shall share my wisdom
+>
+> **File**: [javajitters.jar](https://files.ivyfanchiang.ca/\_umassctf\_java/javajitters.jar)****
 
 ## Unpacking the JAR
 
