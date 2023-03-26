@@ -34,5 +34,5 @@ CTFs we participated in
 
 | CTF                                              | Place |
 | ------------------------------------------------ | ----- |
-| [UMass CTF 2023](https://ctftime.org/event/1912) | 👑5th |
+| [UMass CTF 2023](https://ctftime.org/event/1912) | 👑7th |
 
