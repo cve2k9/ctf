@@ -20,6 +20,84 @@ There is also a 'bot' website that seems to run the user's generated code as adm
 
 <figure><img src="../.gitbook/assets/image.png" alt=""><figcaption><p>The Bot website</p></figcaption></figure>
 
+```javascript
+// Removed all the imports and basic express stuff to save space
+
+let adminLibs = {};
+
+adminLibs[process.env.ADMIN_ACCOUNT] = {
+  "code":`/*
+    !!! The best code ever !!!
+  */ 
+  console.log(1+2);//I think this should output 5
+  console.log(flag);//this is my awesome flag`,
+  "js-on":{'var_flag':process.env.FLAG}
+}
+
+
+app.use(cookiep());
+app.use('/static', express.static('public'))
+
+app.get('/', async (req, res) => {
+  let uid = req.cookies.user ? req.cookies.user : '';
+  let user = await client.get(uid);
+  if(!user){
+    uid = uuidv4();
+    await client.set(uid,JSON.stringify({
+      "code":"console.log(message)",
+      "js-on":{'var_message':'Hello World'}
+    }))
+    res.set({'Set-Cookie':`user=${uid}`});
+  }
+  res.redirect(`/user/${uid}`);
+})
+
+app.get('/code/admin',(req,res)=>{
+  let cookie = req.cookies.user;
+  if(cookie && cookie === process.env.ADMIN_ACCOUNT){
+    return res.json(adminLibs[cookie]);
+  }
+  res.json({'error':'Did not recieve admin cookie'})
+})
+
+app.get('/user/:id',async (req,res)=>{
+  let uid = req.params.id ? req.params.id : '';
+
+  let user = await client.get(req.params.id);
+  if(!user){
+    return res.redirect('/');
+  }
+  res.sendFile(path.join(__dirname,'public/html/index.html'))
+})
+
+app.get('/code/:id',async (req,res)=>{
+  let uid = req.params.id; 
+  let user = await client.get(uid)
+  if(!user){
+    return res.json({'error':'Could not find js-on for this'})
+  }
+  res.json(JSON.parse(user))
+})
+
+app.use(express.json());
+
+app.post('/code',async (req,res)=>{
+  let uid = req.cookies.user ? req.cookies.user : '';
+  let user = await client.get(uid);
+  if(!user){
+    return res.json({'error':'Could not find js-on for that user!'});
+  }
+  try{
+    req.body['js-on'] = JSON.parse(req.body['js-on'])
+  }
+  catch(e){
+    return res.json({'error':'Failed to parse js-on!'})
+  }
+  await client.set(req.cookies.user,JSON.stringify(req.body));
+  res.json({'success':'JS-ON loaded onto server!'});
+})
+```
+
 Based on the code provided, the application is a web server that allows users to write JavaScript code and execute it on the server-side using a technology called JS-ON.
 
 The server creates a unique identifier as a cookie for each user that connects to it, and saves the user's code and JS-ON payload in Redis. Users can retrieve their code and payload by specifying their unique identifier in the URL path.
