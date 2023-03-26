@@ -1,6 +1,6 @@
 # Table of contents
 
-* [🐾 CVE2K9 CTF Writeups](README.md)
+* [🐾 CVE2K9 Writeups](README.md)
 
 ## 2023
 
