@@ -246,4 +246,4 @@ if __name__ == "__main__":
 
 ...aaaand we get the flag: `UMASSCTF{todo:_think_of_a_creative_flag}` .
 
-Now about the intended solution. I haven't tested them myself but I spoke with admin about them. By answering neither `y` nor `n` to the question if you're ready you get a stack leak. According to him the intended solution was to recursively call game through the restart option to shift the stack frame over the area where the flag was written to the stack in the password init function and leak it using option two.
+Now about the intended solution. I haven't tested it myself but I spoke with admin about it. By answering neither `y` nor `n` to the question if you're ready, you get a stack leak. According to him the intended solution was to recursively call game through the restart option to shift the stack frame over the area where the flag was written to the stack in the password init function and leak it using option two.
