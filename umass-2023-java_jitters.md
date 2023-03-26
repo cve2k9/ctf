@@ -1,6 +1,6 @@
 # UMass 2023 - java\_jitters
 
-## ![](.gitbook/assets/image-20230326095914244.png)Description
+## Description
 
 _sips coffee_ o vault of secrets, teller of wisdom and UMastery, tell me the secret phrase and I shall share my wisdom
 
