@@ -10,13 +10,13 @@
 
 ## Assumptions from java\_jitters
 
-Like the original java\_jitters challenge, we can unpack the JAR and decompile it with Recaf's version of Fernflower. The code is also obfuscated using the same Skidfuscator tool so the string literals encryption algorithm is the same (just with a new key that we need to trace). Like the original problem, there is a lot of `invokedynamic` instructions that you will need to convert to Java code by looking at the bytecode.
+Like the original java\_jitters challenge, we can unpack the JAR and decompile it with Recaf's version of Fernflower. The code is also obfuscated using the same Skidfuscator tool, so the string literals encryption algorithm is the same (just with a new key that we need to trace). Like the original problem, there are a lot of `invokedynamic` instructions that you will need to convert to Java code by looking at the bytecode.
 
 I also assumed that the `0o$Oo$K` and `K0o$KOo$KK` functions were the same SHA-256 password hashing functions from the original challenge and did not analyze those.
 
 ## Key differences from java\_jitters outside of main program logic
 
-Like the original challenge, java\_jitters\_2 also uses exceptions to replace return statements but this time there are two exception classes. [`xpbyayedzpfnsdwh`](https://files.ivyfanchiang.ca/\_umassctf\_java/xpbyayedzpfnsdwh.java) replaces string return statements and [`edyxsdbugbromxsl`](https://files.ivyfanchiang.ca/\_umassctf\_java/edyxsdbugbromxsl.java) replaces byte array return statements.
+Like the original challenge, java\_jitters\_2 also uses exceptions to replace return statements, but this time there are two exception classes. [`xpbyayedzpfnsdwh`](https://files.ivyfanchiang.ca/\_umassctf\_java/xpbyayedzpfnsdwh.java) replaces string return statements and [`edyxsdbugbromxsl`](https://files.ivyfanchiang.ca/\_umassctf\_java/edyxsdbugbromxsl.java) replaces byte array return statements.
 
 This byte array return exception gets used in a new function called `Oo0o$OoOo$OoK(String var0, int var1, int var2)` which I renamed to `decode_data(String ciphertext, int len, int seed_arg)` for reasons I will discuss later.
 
@@ -131,9 +131,9 @@ try {
 }
 ```
 
-It starts by grabbing the message data for the hash provided, decoding the data with Base64, and then runs the `decode_data` function on the decoded data with the user's password length and `133764025` as arguments. From this we can deduce that `decode_data` is a decryption function for the message that takes password length as a key.
+It starts by grabbing the message data for the hash provided, decoding the data with Base64, and then runs the `decode_data` function on the decoded data with the user's password length and `133764025` as arguments. From this, we can deduce that `decode_data` is a decryption function for the message that takes password length as a key.
 
-This is a pretty simple key to brute force which we can do for every message in JShell:
+This is a pretty simple key to brute force, which we can do for every message in JShell:
 
 ```java
 jshell> str = "ZHlwZ2JPQwdHB0NHWFpWa1sARwBuBUJrBWtbBUVAAkZIa1sEU0k="

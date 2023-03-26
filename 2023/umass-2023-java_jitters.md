@@ -95,9 +95,9 @@ for (var9 = 0 ^ var9; var13 < var12.length(); var13 += 1974077748 ^ var9) {
 String var2 = var12.toString();
 ```
 
-A similar code block to this with different variables pops up once within `crypto_func1` and very often in `main`. Running through it line by line you will see that it initializes a `StringBuilder` object with ciphertext, does some sort of decryption character by character with `var9` being used as a key, and then converts the decrypted `StringBuilder` to a `String`. This is Skidfuscator's string encryption obfuscation which we can bypass by keeping track of the key variable's value as the program runs.
+A similar code block to this with different variables pops up once within `crypto_func1` and very often in `main`. Running through it line by line, you will see that it initializes a `StringBuilder` object with ciphertext, does some sort of decryption character by character with `var9` being used as a key, and then converts the decrypted `StringBuilder` to a `String`. This is Skidfuscator's string encryption obfuscation, which we can bypass by keeping track of the key variable's value as the program runs.
 
-Tracing through `crypto_func2` in a similar manner, you will find that it just takes the hash that `crypto_func1` generated in `byte[]` form and convert it to a hexadecimal string.
+Tracing through `crypto_func2` in a similar manner, you will find that it just takes the hash that `crypto_func1` generated in `byte[]` form and converts it to a hexadecimal string.
 
 One thing to note is that as another obfuscation method, you won't find `return` statements within these two functions. Instead, you will find [`nerzotvnwdsdpsre`](https://files.ivyfanchiang.ca/\_umassctf\_java/nerzotvnwdsdpsre.java) exceptions being thrown. This is a custom exception created by the obfuscator that looks like this:
 
@@ -132,7 +132,7 @@ try {
 
 ## Analyzing `main`
 
-With those two functions out of the way, lets start analyzing the main program code. First we have to find the key which I've called `int1`:
+With those two functions out of the way, let's start analyzing the main program code. First we have to find the key, which I've called `int1`:
 
 ```java
 int int1 = 1800875868 ^ 2076430062 ^ gjMAozlvk2;
@@ -153,7 +153,7 @@ The program starts by checking that a password is supplied, then over a series o
 The rest of the program is a series of nested if-else blocks which do the following:
 
 1. Performs a XOR calculation against some integer literal to calculate a new key
-2. Decrypts a SHA-256 of a known hash (using the method outlined above)
+2. Decrypts some ciphertext to a known SHA-256 hash (using the method outlined above)
 3. Compares that hash against the user's password hash
 4. If the hashes match:
    1. Performs a XOR calculation against some integer literal to calculate a new key again
@@ -162,9 +162,9 @@ The rest of the program is a series of nested if-else blocks which do the follow
    4. Exits the program
 5. If the hashes don't match, do more XOR calculations and `Factory` checksums to change up the key and repeat
 
-There are many known passwords as some output easter egg messages like `Congratulations, you've unlocked the secret to a perfect cup of Java!`. If none of the passwords match the last else block prints a password not found message.
+There are many known passwords, as some output easter egg messages like `Congratulations, you've unlocked the secret to a perfect cup of Java!`. If none of the passwords match, the last else block prints a password not found message.
 
-Tracing the program in JShell, halfway into the code we get to a block where the key is `1140202191`and a SHA-256 hash of `8900fbb69012f45062aa6802718ad464eaea0854b66fe8916b3b38e775c296a8`.
+Tracing the program in JShell, halfway into the code we get to a block where the key is `1140202191`and has a SHA-256 hash of `8900fbb69012f45062aa6802718ad464eaea0854b66fe8916b3b38e775c296a8`.
 
 ```java
 StringBuilder var168 = new StringBuilder("\uA849\uB849\u2849\u2849\u884C\u484C\u484C\u8849\uB849\u2849\u3849\u4849\u884C\u6849\u7849\u2849\u8849\u4849\u384C\u384C\u8849\uA849\u2849\u4849\u9849\u3849\uA849\u384C\u684C\u6849\u8849\u6849\u784C\u384C\u784C\u384C\u2849\uA849\u7849\u6849\u484C\u8849\u8849\u884C\u784C\uA849\uB849\u3849\u8849\u484C\u5849\u484C\u5849\uA849\u784C\u9849\u9849\u7849\u584C\u4849\uB849\u8849\u384C\uA849");
