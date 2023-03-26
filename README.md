@@ -6,6 +6,10 @@ description: >-
 
 # 🐾 CVE2K9 Writeups
 
+{% hint style="info" %}
+Hi ! Our 8 writeups for UMass CTF are still being written, come back later if you find one missing :D
+{% endhint %}
+
 ## #\~ Who are we
 
 CVE2K9 is a CTF team created in 2023 with a small group of friends. We are still actively looking for members, and feel free to hit our team up to join us!
