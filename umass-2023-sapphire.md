@@ -30,7 +30,7 @@ AAAAAAAAAAAAAAAA
 
 The program wants some input and after that It doesn't do anything. We can make an educated guess that the program is a crackme type of challenge and the input is the flag that is later checked. Later it turns out to be true. Let's open up Ghidra and do some reversing! Now, I never reversed a Windows binary so I'm not sure where to start looking. I went with a top down approach first looking at strings in the program and surely we find something useful.
 
-![](<.gitbook/assets/image (1).png>)
+![](<.gitbook/assets/image (1) (1).png>)
 
 There's a "correct flag" type of string, so we can check the XRef's in Ghidra to see where the string is referenced. Bingo! We find a function that looks like main, so I'm gonna rename it as main. There's the full Ghidra decompilation:
 

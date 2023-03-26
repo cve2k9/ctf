@@ -14,7 +14,7 @@
 
 What we first run into by looking at this challenge is a website that allows you to run code with compiled `JS-ON` for an user.
 
-<figure><img src="../.gitbook/assets/image (1) (1).png" alt=""><figcaption><p>The main website</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption><p>The main website</p></figcaption></figure>
 
 There is also a 'bot' website that seems to run the user's generated code as admin.
 
