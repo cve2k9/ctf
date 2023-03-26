@@ -1,6 +1,6 @@
 # UMass 2023 - java\_jitters
 
-## Description
+## ![](.gitbook/assets/image-20230326095914244.png)Description
 
 _sips coffee_ o vault of secrets, teller of wisdom and UMastery, tell me the secret phrase and I shall share my wisdom
 
@@ -9,6 +9,8 @@ _sips coffee_ o vault of secrets, teller of wisdom and UMastery, tell me the sec
 ## Unpacking the JAR
 
 This is pretty simple, JAR files are just fancy ZIP files with a set directory structure so once you unzip it you get this:
+
+<figure><img src=".gitbook/assets/image-20230326095914244.png" alt=""><figcaption></figcaption></figure>
 
 The first thing that you should look at is the `META-INF/MANIFEST.MF` file which defines what class is run by Java when executing the JAR:
 
