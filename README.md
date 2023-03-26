@@ -12,6 +12,10 @@ CVE2K9 is a CTF team created in 2023 with a small group of friends. We are still
 
 {% embed url="https://ctftime.org/team/214211" %}
 
+{% hint style="success" %}
+Feel free to check out our main website at https://cve2k9.club
+{% endhint %}
+
 ## #\~ Team Members
 
 Our team is composed of amazing button smashers
@@ -31,8 +35,4 @@ CTFs we participated in
 | CTF                                              | Place |
 | ------------------------------------------------ | ----- |
 | [UMass CTF 2023](https://ctftime.org/event/1912) | 👑5th |
-
-{% hint style="success" %}
-Feel free to check out our main website at https://cve2k9.club
-{% endhint %}
 

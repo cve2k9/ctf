@@ -18,7 +18,7 @@ What we first run into by looking at this challenge is a website that allows you
 
 There is also a 'bot' website that seems to run the user's generated code as admin.
 
-<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption><p>The Bot website</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption><p>The Bot website</p></figcaption></figure>
 
 ```javascript
 // Removed all the imports and basic express stuff to save space
