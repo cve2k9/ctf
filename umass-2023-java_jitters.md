@@ -242,4 +242,4 @@ if (var14 != (1140202191 ^ int1)) {
 
 Decrypting the message of this block, we get our flag: `UMASS{C0ff33_m@k3s_m3_J@v@_crazy}`
 
-All the source code that was relevant for both java\_jitters and java\_jitters\_v2 in decompiled and annotated/refactored forms can be found [here](https://files.ivyfanchiang.ca/\_umassctf\_java/)
+All the source code that was relevant for both java\_jitters and java\_jitters\_v2 in decompiled and annotated/refactored forms can be found [here](https://files.ivyfanchiang.ca/\_umassctf\_java/), the writeup for this problem's sequel `java_jitters_2` can be found [here](umass-2023-java\_jitters\_2.md)

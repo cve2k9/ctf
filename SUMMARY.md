@@ -11,3 +11,4 @@
 * [UMass 2023 - sapphire](umass-2023-sapphire.md)
 * [UMass 2023 - last\_minute\_pwn](umass-2023-last\_minute\_pwn.md)
 * [UMass 2023 - java\_jitters](umass-2023-java\_jitters.md)
+* [UMass 2023 - java\_jitters\_2](umass-2023-java\_jitters\_2.md)
