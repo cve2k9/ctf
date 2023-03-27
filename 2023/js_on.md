@@ -106,7 +106,7 @@ The server creates a unique identifier cookie for each user that connects to it,
 
 There is also an admin feature that allows a user with a specific admin cookie to access a pre-defined `JS-ON` snippet containing the flag at the special url `/code/admin`.
 
-<pre class="language-java"><code class="lang-java"><strong>adminLibs[process.env.ADMIN_ACCOUNT] = {
+<pre class="language-javascript"><code class="lang-javascript"><strong>adminLibs[process.env.ADMIN_ACCOUNT] = {
 </strong>  "code":`/*
     !!! The best code ever !!!
   */ 

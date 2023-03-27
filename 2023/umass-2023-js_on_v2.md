@@ -4,7 +4,7 @@
 
 > A little birdie told me that there are some unintended solutions to the challenge I worked for so long on! However I'm on a time crunch and can't put a patch myself so I let ChatGPT write me one. If your unintended (or intended) solution from the unpatched version works, enjoy a free 500 pts!
 >
-> Bot: [http://bot-json.web.ctf.umasscybersec.org:9000/](http://bot-json.web.ctf.umasscybersec.org:9000/)
+> Bot: [http://bot-json2.web.ctf.umasscybersec.org:9000/](http://bot-json2.web.ctf.umasscybersec.org:9000/)
 >
 > File: [https://umass-ctf-challenges.s3.amazonaws.com/web/v2/app.js](https://umass-ctf-challenges.s3.amazonaws.com/web/v2/app.js)
 >
@@ -115,4 +115,25 @@ index 377f1dd..61f5883 100644
 
 </code></pre>
 
-Messing around with re-submissions of our payload, it turns out that one of the banned words is "cookie" which blocks the `var_cookie` our current solution uses for phoning home. Changing this to something like `var_x` makes it work again. Yes really, that's all :)
+Messing around with re-submissions of our payload, it turns out that one of the banned words is "cookie" which blocks the `var_cookie` our current solution uses for phoning home.
+
+<figure><img src="../.gitbook/assets/2023-03-27T165802,672130248+0200.png" alt=""><figcaption></figcaption></figure>
+
+Changing this to something like `var_x` makes it work again. Yes really, that's all :)
+
+<figure><img src="../.gitbook/assets/2023-03-27T170206,015437073+0200.png" alt=""><figcaption></figcaption></figure>
+
+Then request `/code/admin` like last time and:
+
+{% code overflow="wrap" %}
+```json
+{
+    "code": "/*\n    !!! The best code ever !!!\n  */ \n  console.log(1+2);//I think this should output 5\n  console.log(flag);//this is my awesome flag",
+    "js-on": {
+        "var_flag": "UMASS{W41T_1_Th0ught_1_b4nn3d_th41_lm40}"
+    }
+}
+```
+{% endcode %}
+
+In fact, since the admin cookie is exactly the same as in v1, we wouldn't even have needed to fix our solution in any way at all, and could've just taken the flag instantly.
