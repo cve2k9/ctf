@@ -8,7 +8,7 @@
 
 ## The Challenge and solution
 
-In this challenge we get a .exe Windows binary `./sapphire.exe`. First thing by running the file command we can see it's a 32 bit binary.
+In this challenge we get an .exe Windows binary, `./sapphire.exe`. First by running the `file` command we can see it's a 32-bit binary.
 
 ```
 ➜  umass file ~/Downloads/sapphire.exe
@@ -28,11 +28,11 @@ AAAAAAAAAAAAAAAA
 ➜  umass
 ```
 
-The program wants some input and after that It doesn't do anything. We can make an educated guess that the program is a crackme type of challenge and the input is the flag that is later checked. Later it turns out to be true. Let's open up Ghidra and do some reversing! Now, I never reversed a Windows binary so I'm not sure where to start looking. I went with a top down approach first looking at strings in the program and surely we find something useful.
+The program wants some input and after that It doesn't do anything. We can make an educated guess that the program is a crackme type of challenge and the input is the flag that is later checked. Later it turns out to be true. Let's open up Ghidra and do some reversing! Now, I never reversed a Windows binary so I'm not sure where to start looking. I went with a top-down approach, first looking at strings in the program and surely we found something useful.
 
 ![](<../.gitbook/assets/image (1) (1).png>)
 
-There's a "correct flag" type of string, so we can check the XRef's in Ghidra to see where the string is referenced. Bingo! We find a function that looks like main, so I'm gonna rename it as main. There's the full Ghidra decompilation:
+There's a "correct flag" type of string, so we can check the XRef's in Ghidra to see where the string is referenced. Bingo! We find a function that looks like a main function, so I'm gonna rename it as `main`. There's the full Ghidra decompilation:
 
 ```c
 void main(void)
@@ -72,14 +72,14 @@ void main(void)
 }
 ```
 
-We can see that it reads 0x50 bytes of input and then checks it against some conditions. Maybe it's hard too see bu the check against the numbers:
+We can see that the program reads 0x50 bytes of input and then checks it against some conditions. Maybe it's hard too see at first glance, but the check against the numbers:
 
 ```
   local_10 = 0x53414d55;
   local_c = 0x7b53;
 ```
 
-is just an optimized check if the string begins with the bytes `UMASS{` and we also check if the string ends with `}`. Then it checks the input against the function that I renamed as `check_fun` . This is where the real challenge begins. There's the Ghidra's decompilation of check\_fun:
+is just an optimized check if our string begins with the bytes `UMASS{` and we also check if the string ends with `}`. Then it checks the input against some function that I renamed as `check_fun` . This is where the real challenge begins. There's the Ghidra's decompilation of check\_fun:
 
 ```c
 undefined4 __cdecl check_fun(char *flag,undefined4 len)
@@ -116,7 +116,7 @@ undefined4 __cdecl check_fun(char *flag,undefined4 len)
 }
 ```
 
-Now this looks a little scary... We allocate some executable memory and copy `orig_code` to it which is a global variable with random bytes that turn out to be assembly code. Then we write to the allocated memory some things and we call the memory like if it was some function. So the main challenge is figuring out what happens in the allocated memory. At the begging I wanted to use my old Windows hard drive that is lying around and poke at the program with windbg. After fighting 30 minutes with windbg and after that installing mingw-gdb on Windows in which 80% of the options didn't work it turns out that I'm absolutely abysmal at using Windows, having big troubles even putting a breakpoint there (idk if it's something that I should be proud of or ashamed of). So I had to change my approach. Because I'm a mad crazy person I decided to rewrite the whole program in c, so I can compile it on Linux to work on it with gdb and an environment that I'm used to. There's my source code:
+Now this looks a little scary... We allocate some executable memory and copy `orig_code` to it, orig\_code is a global variable with random bytes that turn out to be assembly instructions. Then we write to the allocated memory some things like the string length and some addresses, and after that we call the memory like if it was some function. So the main challenge is figuring out what happens in the allocated memory. At the begging I wanted to use my old Windows hard drive that is lying around and poke at the program with windbg. After fighting 30 minutes with windbg and installing mingw-gdb on Windows in which 80% of the options didn't work, it turns out that I'm absolutely abysmal at using Windows, having big troubles even putting a breakpoint there (idk if it's something that I should be proud of or ashamed of). So I had to change my approach. Because I'm a mad crazy person I decided to rewrite the whole program in c, so I can compile it on Linux to work on it with gdb and an environment that I'm used to. There's my source code:
 
 ```c
 // compile with -m32!!!
@@ -217,8 +217,8 @@ I think I made a mistake somewhere because it segfaults, but it does it just aft
    0xf7fc000e    retf
 ```
 
-it changes the eax register to equal 0x33 and then it does a retf to an address we overwrote in the check\_fun function before. It's important to know how the retf and jmpf instructions work because if you didn't know about it, it can be a real headache. Basically if we push 0x23 or 0x33 before the address, then after retf the value is used in some internal processor register and in this case we change from 32bit mode to 64 bit mode. Every instruction after that will be treated as an 64bit instruction by the processor. The main problem is that gdb doesn't work well with this kind of hackery so after that gdb still thinks it's 32 bit. It's annoying if you don't notice it because then gdb looks like it's broken. For example you step one instruction but gdb steps three instructions. To be honest I don't know a way to change it so after that I just observed how registers change.&#x20;
+it changes the eax register to equal 0x33 and then it does a retf to an address we overwrote in the check\_fun function before. It's important to know how the retf and far jmps instructions work because if you didn't know about this it can be a real headache. Basically if we push 0x23 or 0x33 before the address, then after retf the value is used in some internal processor's register and in this case we change from 32-bit mode to 64-bit mode. Every instruction after that will be treated as an 64bit instruction by the processor. The main problem is that gdb doesn't work well with this kind of hackery so after that gdb still thinks that it's executing 32-bit code. It's annoying if you don't notice it because then gdb looks like it's broken. For example you step one instruction but gdb steps three instructions. To be honest I don't know a way to change it so after that happens I just observe how registers change.&#x20;
 
-Because of that I couldn't depend on the gdb disassembly to solve the challenge. That may be a little anticlimactic ending cause I don't have any pretty pictures to show but basically I solved it by observing how register values change and noticing that my input letters are xored with some value and then are loaded to the eax register and checked if they are zero. So if they weren't zero but instead 0x20 for example then I xored my input letter with 0x20 and I did it like that for every letter in the input. Before the xoring part there was also a length check to check if the flag has the correct length. I'm sure it could be automated in some way but doing it by hand took me around 30\~ minutes so it wasn't that bad. ;)
+Because of that I couldn't depend on the gdb disassembly to solve the challenge. That may be a little anticlimactic ending cause I don't have any pretty pictures to show but basically I solved it by observing how register values change and noticing that my input letters are xored with some value and then are loaded to the eax register and then checked if they are zero. So if they weren't zero but instead were equal to 0x20 for example then I xored my input letter with 0x20 and I did it like that for every letter in the input. Before the xoring part there was also a length check to check if the flag has the correct length. I'm sure it could be automated in some way but doing it by hand took me around 30\~ minutes so it wasn't that bad. ;)
 
 There's the flag: `UMASS{Y0U^V3_4N5W3R3D_TH3_H34V3N^5_C411!__EHBFKhLUVig}`

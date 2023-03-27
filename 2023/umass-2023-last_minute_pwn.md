@@ -10,7 +10,7 @@
 
 ## The challenge
 
-We are given a 64-bit linux binary. The binary doesn't have any stack canaries according to checksec but it won't be needed, it will turn out there are no stack buffer overflows to abuse in this challenge. I can proudly say I got both a first blood and an unintended in this challenge, that's always something! :D
+We are given a 64-bit linux binary. The binary doesn't have any stack canaries according to checksec but this fact won't be needed, it will turn out there are no stack buffer overflows to abuse. I can proudly say I got both a first blood and an unintended in this challenge, that's always something! :D
 
 ```
 ➜  last file ./last_minute_pwn
@@ -59,7 +59,7 @@ Login failed
  >> 1
 ```
 
-So we get a menu with three options. One just exists, the second one asks us for a password (maybe if we get the password right we get the flag?) and the first one launches a simple terminal math game. If we launch the game we are asked if we're ready. `n` just goes back to the previous menu and `y` goes to a next menu.
+So we get a menu with three options. One just exists, the second one asks us for a password (Maybe if we get the password right we get the flag? Or maybe the password is the flag?) and the first one launches a simple terminal math game. If we launch the game we are asked if we're ready. `n` just goes back to the previous menu and `y` goes to a next menu.
 
 ```
 Are you ready for the ultimate math game? [y/n]
@@ -93,7 +93,7 @@ undefined8 main(void)
 }
 ```
 
-Password is a global variable that stores a pointer that points to well... a password. This is how the password is generated:
+`password` is a global variable that stores a pointer that points to well... a password. This is how it's generated:
 
 ```c
 char * get_admin_pass(void)
@@ -112,7 +112,7 @@ char * get_admin_pass(void)
 
 It's just random bytes. Including bytes like nullbytes. Keep it in mind cause it may be important. ;)
 
-This is how the main menu function looks like:
+This is how the first main menu function looks like:
 
 ```c
 void run(void)
@@ -151,7 +151,7 @@ LAB_00101a50:
 }
 ```
 
-Nothing too see there, so let's go straight away to the config function and let's check for what the password is checked.
+Nothing too see there, so let's go straight away to the config function and let's check how the password is checked.
 
 ```c
 void config(void)
@@ -196,7 +196,7 @@ bool authenticate_admin(void)
 }
 ```
 
-Now we can see that if we get the password right we get printed a flag. Look closely at the `authenticate_admin` function and try to find the unintended solution. The trick is to know that strcmp style functions stop comparing when they encouter a nullbyte because they are designed for c-style strings. If our input is just a newline then it gets overwritten as a nullbyte because of the lines:
+Now we can see that if we get the password right we get a flag. Look closely at the `authenticate_admin` function and try to find the unintended solution. The trick is to know that strcmp type of functions stop comparing when they encouter a nullbyte because they are designed for c-style strings. If our input is just a newline then it gets overwritten as a nullbyte because of the lines:
 
 ```c
   sVar3 = strcspn(local_28,"\n");
@@ -246,4 +246,4 @@ if __name__ == "__main__":
 
 ...aaaand we get the flag: `UMASSCTF{todo:_think_of_a_creative_flag}` .
 
-Now about the intended solution. I haven't tested it myself but I spoke with admin about it. By answering neither `y` nor `n` to the question if you're ready, you get a stack leak. According to him the intended solution was to recursively call game through the restart option to shift the stack frame over the area where the flag was written to the stack in the password init function and leak it using option two.
+Now about the intended solution. I haven't tested it myself but I spoke with the admin/author about it. By answering neither `y` nor `n` to the question if you're ready, you can get a stack leak. According to him the intended solution was to recursively call the game through the restart option to shift the stack frame over the area where the flag was written to the stack in the password init function and then leak it using option two from the second menu.
