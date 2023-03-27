@@ -9,3 +9,4 @@
 * [UMass 2023 - last\_minute\_pwn](2023/umass-2023-last\_minute\_pwn.md)
 * [UMass 2023 - java\_jitters](2023/umass-2023-java\_jitters.md)
 * [UMass 2023 - java\_jitters\_2](2023/umass-2023-java\_jitters\_2.md)
+* [UMass 2023 - deepfried](2023/umass-2023-deepfried.md)
