@@ -5,6 +5,7 @@
 ## 2023
 
 * [UMass 2023 - js\_on](2023/js\_on.md)
+* [UMass 2023 - js\_on\_v2](2023/umass-2023-js\_on\_v2.md)
 * [UMass 2023 - sapphire](2023/umass-2023-sapphire.md)
 * [UMass 2023 - last\_minute\_pwn](2023/umass-2023-last\_minute\_pwn.md)
 * [UMass 2023 - java\_jitters](2023/umass-2023-java\_jitters.md)
